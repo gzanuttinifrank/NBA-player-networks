@@ -8,7 +8,8 @@ Given any two players in NBA history, this program finds the shortest connection
 
 ### File and dataset descriptions:
 To run this program, either run the executable file in the zip file, or run `nba_player_networks` with the following 5 .pkl files in the same directory.
-* **`nba_player_networks`** contains both the logic behind the bidirectional BFS algorithm as well as the input handling and the functions to create and update the pkl files containing the necessary dictionaries of data.
+* **`nba_player_networks`** contains both the logic behind the bidirectional BFS algorithm as well as the input handling and the function to update the pkl files containing the necessary dictionaries of data.
+* **`create_data_dicts`** contains the function that creates the .pkl files from scratch. If the files already exist in the directory, `nba_player_networks` will update the files with any new data that becomes available during a new NBA season.
 * **`lg_yr_abbrevs`** is a dictionary indexed by a league year (eg. NBA_2019) with values being the list of team abbreviations of all teams that participated in that league year.
 * **`player_id_dict`** is a dictionary that maps a player ID to a list of three elements: the player's full name, the number of distinct team-seasons he has played on (playing for the same franchise for two seasons counts as two distinct teams), and the most recent year in which he was active.
 * **`player_team_dict`** maps a player ID to a list of all of the distinct team-seasons he has played for. Each team-season is represented as the league abbreviation, the season ending year, and the team abbreviation (eg. NBA_2019_ATL).
