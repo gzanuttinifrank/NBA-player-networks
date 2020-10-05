@@ -283,68 +283,7 @@ def get_team(team_player_dict, lg_yr_abbrevs, player_id_dict, tm_abbrs_names):
     for player in tm_players:
         print(player_id_dict[player][0])
     print('')
-
-
-# finds shortest path between 2 nodes of a graph using BFS
-def bfs_shortest_path(graph, start, goal):
-    inittime = time()
-    alerted = False
-    # keep track of explored nodes and lengths of paths at which they've been explored
-    explored_len = {}
-    # keep track of all the paths to be checked
-    queue = deque([[start]])
-
-    # return path if start is goal
-    if start == goal:
-        return "That was easy! Start = goal"
     
-    good_paths = []
-    best_length = 999
- 
-    # keeps looping until all possible paths have been checked
-    while queue:
-        currtime = time()
-        if currtime-inittime > 10 and not alerted:
-            print("Searching...these players are far apart!\n")
-            alerted = True
-        # pop the first path from the queue
-        path = queue.popleft()
-        pathlen = len(path)
-        # get the last node from the path
-        node = path[-1]
-
-        if pathlen >= best_length:
-            return good_paths
-        try:
-            nodelen = explored_len[node]
-            assert pathlen > nodelen
-            assert node[3] != '_'
-            continue
-        except:
-        # if node not in explored or pathlen <= explored_len[node]:
-            neighbors = graph[node]
-            # go through all neighbor nodes, construct a new path and push it into the queue
-            for neighbor in neighbors:
-                new_path = list(path)
-                new_path.append(neighbor)
-                queue.extend([new_path])
-                # return path if neighbor is goal
-                if neighbor == goal:
-                    new_path_len = len(new_path)
-                    if not good_paths:
-                        good_paths.append(new_path)
-                        best_length = new_path_len
-                    elif new_path_len == best_length:
-                        good_paths.append(new_path)
-                    elif new_path_len < best_length:
-                        print("What in the world is going on?")
-                    else:
-                        return good_paths
- 
-            # mark node as explored
-            explored_len[node] = pathlen
- 
-    return good_paths
 
 
 # find shortest paths between 2 nodes using bidirectional bfs
@@ -425,7 +364,6 @@ def bidirectional_search(graph, start, goal):
 
 # gets unique shortest paths (by players involved, not teams) and converts player IDs to names for printing
 def shortest_path_names(graph, start, goal):
-    # paths = bfs_shortest_path(graph, start, goal)
     paths = bidirectional_search(graph, start, goal)
     if not paths:
         return "Sorry, but a connecting path doesn't exist."
