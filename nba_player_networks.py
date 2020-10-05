@@ -290,11 +290,14 @@ def get_team(team_player_dict, lg_yr_abbrevs, player_id_dict, tm_abbrs_names):
 def bidirectional_search(graph, start, goal):
     inittime = time()
     alerted = False
+    
     # Check if start and goal are equal.
     if start == goal:
         return "That was easy! Start = goal"
+    
     # Get dictionary of currently active nodes with their corresponding paths (path string : [origin, active node])
     active_nodes_path_dict = {start: [start, start], goal: [goal, goal]}
+    
     # Nodes we have already visited
     inactive_nodes = set()
     explored_len = {}
@@ -307,19 +310,25 @@ def bidirectional_search(graph, start, goal):
         if currtime-inittime > 10 and not alerted:
             print("Searching...these players are far apart!\n")
             alerted = True
+            
         # Make a copy of active nodes so we can modify the original dictionary
         active_nodes = list(active_nodes_path_dict.keys())
         for node in active_nodes:
+            
             # Get the path to where we are
             current_path = node.split(',')
+            
             # If double the current path length is already longer than the best length, return
             if len(current_path)*2 > best_length:
                 return good_paths
+            
             # Record whether we started at start or goal
             origin = active_nodes_path_dict[node][0]
             current_node = active_nodes_path_dict[node][1]
+            
             # Check for new neighbors
             current_neighbors = set(graph[current_node]) - inactive_nodes
+            
             # Check if our neighbors hit an active node
             active_goal_nodes = [value[1] for value in active_nodes_path_dict.values()]
             curr_neighbor_intersect = current_neighbors.intersection(active_goal_nodes)
@@ -328,8 +337,10 @@ def bidirectional_search(graph, start, goal):
                 dict_key_list = list(active_nodes_path_dict.keys())
                 curr_neighbor_paths = [dict_key_list[i] for i in active_indices]
                 for meeting_path in curr_neighbor_paths:
+                    
                     # Check the two paths didn't start at same place. If not, then we have a path from start to goal
                     if origin != active_nodes_path_dict[meeting_path][0]:
+                        
                         # Reverse one of the paths and return the combined results
                         new_good_path = current_path + meeting_path.split(',')[::-1]
                         good_paths.append(new_good_path[::-1])
